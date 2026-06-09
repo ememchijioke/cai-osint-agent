@@ -9,6 +9,7 @@ This file controls the agent workflow:
 - run allowed tools
 - save observations
 - keep decision trace
+- generate markdown report
 
 The CAI framework will later be connected around this workflow.
 """
@@ -16,6 +17,8 @@ The CAI framework will later be connected around this workflow.
 from agent.memory import AgentMemory
 from agent.planner import ReconPlanner
 from agent.safety_guard import check_target_safety, safety_check
+
+from reports.report_generator import generate_markdown_report
 
 from tools.dns_lookup import run_dns_lookup
 from tools.whois_lookup import run_whois_lookup
@@ -171,16 +174,19 @@ class ReconAgent:
 
     def save_outputs(self):
         """
-        Save raw results and agent trace.
+        Save raw results, agent trace, and markdown report.
         """
         outputs = self.config.get("outputs", {})
 
         raw_results_path = outputs.get("raw_results", "outputs/raw_results.json")
         agent_trace_path = outputs.get("agent_trace", "outputs/cai_agent_trace.json")
+        report_path = outputs.get("report", "outputs/summary_report.md")
 
         self.memory.save_raw_results(raw_results_path)
         self.memory.save_agent_trace(agent_trace_path)
+        generate_markdown_report(self.memory.to_dict(), report_path)
 
         print("\nSaved:")
         print(f"- {raw_results_path}")
         print(f"- {agent_trace_path}")
+        print(f"- {report_path}")
