@@ -1,0 +1,6 @@
+python-dotenv
+pyyaml
+requests
+rich
+python-nmap
+cryptography

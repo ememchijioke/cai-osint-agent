@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+
+.venv/
+venv/
+
+.env
+
+outputs/*
+!outputs/.gitkeep
+!outputs/sample_report.md
+!outputs/sample_agent_trace.json
+
+.DS_Store
+*.log

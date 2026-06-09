@@ -1,0 +1,26 @@
+project:
+  name: "CAI OSINT Recon Agent"
+  mode: "student-demo"
+
+target_policy:
+  allowed_targets:
+    - "scanme.nmap.org"
+    - "localhost"
+    - "127.0.0.1"
+
+scan_policy:
+  nmap_arguments: "-sV -T2 --top-ports 20"
+  timeout_seconds: 30
+  allow_private_targets: true
+  allow_public_targets_only_if_listed: true
+
+agent:
+  max_steps: 6
+  save_trace: true
+  use_cai: true
+  fallback_rule_based_planner: true
+
+outputs:
+  raw_results: "outputs/raw_results.json"
+  agent_trace: "outputs/cai_agent_trace.json"
+  report: "outputs/summary_report.md"
