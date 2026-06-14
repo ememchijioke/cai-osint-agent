@@ -68,6 +68,12 @@ class AgentMemory:
         Store final summary.
         """
         self.data["final_summary"] = summary
+        
+    def add_cai_analysis(self, analysis: dict):
+        """
+        Store CAI-style analysis result.
+        """
+        self.data["cai_analysis"] = analysis
 
     def to_dict(self) -> dict:
         """
@@ -94,3 +100,4 @@ class AgentMemory:
 
         with open(output_path, "w", encoding="utf-8") as file:
             json.dump(self.data["agent_trace"], file, indent=4)
+    

@@ -81,17 +81,31 @@ def generate_markdown_report(memory_data: dict, output_path: str) -> str:
 
     report.append("\n---\n")
 
-    report.append("## 5. Risk Interpretation\n")
+    report.append("## 5. CAI-Assisted Evidence Analysis\n")
+    cai_analysis = memory_data.get("cai_analysis", {})
+
+    if cai_analysis:
+        report.append(cai_analysis.get("analysis", "No CAI analysis available."))
+        report.append("\n")
+        report.append(f"- CAI analysis mode: `{cai_analysis.get('mode', 'unknown')}`\n")
+        if cai_analysis.get("error"):
+            report.append(f"- Note: {cai_analysis.get('error')}\n")
+    else:
+        report.append("No CAI-assisted analysis was recorded.\n")
+
+    report.append("\n---\n")
+    
+    report.append("## 6. Risk Interpretation\n")
     report.extend(generate_risk_interpretation(observations))
 
     report.append("\n---\n")
 
-    report.append("## 6. Defensive Recommendations\n")
+    report.append("## 7. Defensive Recommendations\n")
     report.extend(generate_recommendations(observations))
 
     report.append("\n---\n")
 
-    report.append("## 7. Limitations\n")
+    report.append("## 8. Limitations\n")
     report.append(
         "- The scan was intentionally limited for safety and coursework demonstration.\n"
         "- The report is based only on collected evidence.\n"

@@ -3,4 +3,6 @@ pyyaml
 requests
 rich
 python-nmap
-cryptography
+cryptographyopenai
+openai
+google-genai

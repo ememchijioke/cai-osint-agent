@@ -19,6 +19,8 @@ agent:
   save_trace: true
   use_cai: true
   fallback_rule_based_planner: true
+  cai_mode: "evidence_summary"
+  require_evidence_grounding: true
 
 outputs:
   raw_results: "outputs/raw_results.json"

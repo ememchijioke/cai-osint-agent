@@ -1,3 +1,6 @@
+from agent.cai_runner import run_cai_analysis
+from reports.evaluation import generate_evaluation_metrics
+
 """
 recon_agent.py
 
@@ -174,7 +177,7 @@ class ReconAgent:
 
     def save_outputs(self):
         """
-        Save raw results, agent trace, and markdown report.
+        Save raw results, agent trace, CAI analysis, and markdown report.
         """
         outputs = self.config.get("outputs", {})
 
@@ -182,11 +185,30 @@ class ReconAgent:
         agent_trace_path = outputs.get("agent_trace", "outputs/cai_agent_trace.json")
         report_path = outputs.get("report", "outputs/summary_report.md")
 
+        if self.config.get("agent", {}).get("use_cai", True):
+            cai_analysis = run_cai_analysis(self.memory.to_dict(), self.config)
+            self.memory.add_cai_analysis(cai_analysis)
+            
+            print("\n[CAI Analysis]")
+            print(f"Provider: {cai_analysis.get('provider')}")
+            print(f"Mode: {cai_analysis.get('mode')}")
+            print(f"Success: {cai_analysis.get('success')}")
+            if cai_analysis.get("error"):
+                print(f"Note: {cai_analysis.get('error')}")
+
         self.memory.save_raw_results(raw_results_path)
         self.memory.save_agent_trace(agent_trace_path)
         generate_markdown_report(self.memory.to_dict(), report_path)
+
+        evaluation_path = outputs.get(
+            "evaluation_metrics",
+            "outputs/evaluation_metrics.json",
+        )
+        generate_evaluation_metrics(self.memory.to_dict(), evaluation_path)
 
         print("\nSaved:")
         print(f"- {raw_results_path}")
         print(f"- {agent_trace_path}")
         print(f"- {report_path}")
+        print(f"- {evaluation_path}")
+        
