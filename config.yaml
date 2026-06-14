@@ -26,3 +26,4 @@ outputs:
   raw_results: "outputs/raw_results.json"
   agent_trace: "outputs/cai_agent_trace.json"
   report: "outputs/summary_report.md"
+  evaluation_metrics: "outputs/evaluation_metrics.json"
